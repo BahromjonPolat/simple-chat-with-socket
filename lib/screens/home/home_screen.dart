@@ -23,6 +23,8 @@ import 'package:websocket/widgets/widgets.dart';
 
 import '../../blocs/users/users_bloc.dart';
 
+import 'package:socket_io_client/socket_io_client.dart' as  IO;
+
 class HomeScreen extends StatefulWidget {
   static const String route = 'home';
   const HomeScreen({super.key});
@@ -32,6 +34,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late UserModel user;
+
+  late IO.Socket _socket;
+  _connectSocket() {
+    _socket = IO.io(
+      'http://192.168.43.42:5000',
+      IO.OptionBuilder().setTransports(['websocket']).build(),
+    );
+
+    _socket.io.on('connection', (data) => print(data));
+    _socket.onConnect((data) => print('Connection established'));
+    _socket.onConnectError((data) => print('Connect Error: $data'));
+    _socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+    _socket.on(
+      'message',
+      (data) => print(data),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // _connectSocket();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               AppDialog(context).showSimpleDialog(
                 title: 'Logout',
                 contentText: 'Are you really want to exit',
-                onYesPressed: ()async {
+                onYesPressed: () async {
                   HiveBoxes.prefBox.clear();
                   AppNavigator.pushNamedAndRemoveUntil(RegisterScreen.route);
                 },
@@ -87,4 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
 }

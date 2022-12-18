@@ -15,3 +15,4 @@
 export 'login/login_bloc.dart';
 export 'register/register_bloc.dart';
 export 'users/users_bloc.dart';
+export 'chat/chat_bloc.dart';

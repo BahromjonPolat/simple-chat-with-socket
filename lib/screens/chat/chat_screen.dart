@@ -34,6 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
       'http://192.168.43.42:5000',
       IO.OptionBuilder().setTransports(['websocket']).build(),
     );
+    _socket.connect();
 
     _socket.io.on('connection', (data) => print(data));
     _socket.onConnect((data) => print('Connection established'));

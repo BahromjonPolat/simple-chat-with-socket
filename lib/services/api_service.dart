@@ -70,6 +70,10 @@ class HttpResult {
   });
 
   dynamic getData() {
-    return jsonDecode(response.toString());
+
+    if(isSuccess) {
+      return jsonDecode(response.toString());
+    }
+    return response;
   }
 }

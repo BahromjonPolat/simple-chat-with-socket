@@ -6,7 +6,6 @@ const messageRoutes = require("./routes/messages");
 const logger = require('morgan');
 const app = express();
 const socket = require("socket.io");
-const { emit } = require("./models/messageModel");
 require("dotenv").config();
 
 app.use(logger('dev'));
@@ -39,11 +38,14 @@ const io = socket(server, {
 });
 
 global.onlineUsers = new Map();
+var allClients = [];
 
 io.on("connection", (socket) => {
-
+  
+  allClients.push(socket);
   console.log('======== CONNECTED ===========');
   global.chatSocket = socket;
+
   socket.on("add-user", (userId) => {
     console.log(userId);
     onlineUsers.set(userId, socket.id);
@@ -56,6 +58,19 @@ io.on("connection", (socket) => {
       socket.to(sendUserSocket).emit("msg-recieve", data.msg);
     }
   });
+
+  // socket.on("online-users", (data) => {
+  //   socket.emit(allClients)
+  // });
+
+  socket.on('disconnect', function() {
+    console.log('Got disconnect!');
+
+    var i = allClients.indexOf(socket);
+    console.log(i);
+    allClients.splice(i, 1);
+ });
+
 });
 
 
