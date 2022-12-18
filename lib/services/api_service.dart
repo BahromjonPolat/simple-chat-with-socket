@@ -7,7 +7,7 @@ import '../hive_helper/app_prefs.dart';
 class ApiService {
   const ApiService._();
   static const String baseUrl = 'http://192.168.43.42:5000/api';
-  static const String socketUrl = 'http://192.168.43.42:3000';
+  static const String socketUrl = 'http://192.168.43.42:5000';
 
   static Future<HttpResult> register({
     required String username,
