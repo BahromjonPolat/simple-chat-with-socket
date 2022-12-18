@@ -11,3 +11,4 @@
 
 */
 export 'primary_button.dart';
+export 'app_dialog.dart';

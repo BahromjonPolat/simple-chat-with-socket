@@ -19,6 +19,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   ) async {
     emit(UsersLoadingState());
     HttpResult result = await ApiService.getUsers();
+
+    print(result.response);
     if (result.isSuccess) {
       List<UserModel> users =
           (result.getData() as List).map((e) => UserModel.fromJson(e)).toList();
