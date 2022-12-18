@@ -12,7 +12,9 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:websocket/hive_helper/app_prefs.dart';
 import 'package:websocket/routes/app_navigator.dart';
+import 'package:websocket/screens/auth/regiser_screen.dart';
 import 'package:websocket/screens/home/home_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -23,11 +25,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: AppNavigator.navigatorKey,
-      initialRoute: HomeScreen.route,
+      initialRoute:
+          AppPrefs.user == null ? RegisterScreen.route : HomeScreen.route,
       routes: {
         HomeScreen.route: (_) => const HomeScreen(),
+        RegisterScreen.route: (_) => const RegisterScreen(),
       },
-      home: const Scaffold(),
     );
   }
 }

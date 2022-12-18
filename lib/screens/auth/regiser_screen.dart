@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: BlocConsumer<RegisterBloc, RegisterState>(
                   listener: (context, state) {
                     if (state is RegisterFailedState) {
-                      FlutterToast(context).showToast(child: Text(state.error));
+                      Fluttertoast.showToast(msg: state.error);
                     }
 
                     if (state is RegisterSuccessState) {

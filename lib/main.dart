@@ -12,9 +12,15 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:websocket/hive_helper/hive_serive.dart';
 
 import 'app.dart';
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveService.init();
+
+
   runApp(const MyApp());
 }
