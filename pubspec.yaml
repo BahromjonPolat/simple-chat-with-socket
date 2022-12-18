@@ -18,6 +18,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_bloc: ^8.1.1
   http: ^0.13.5
+  meta: ^1.8.0
 
 dev_dependencies:
   flutter_test:
