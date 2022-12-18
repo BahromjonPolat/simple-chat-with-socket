@@ -14,7 +14,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:websocket/hive_helper/hive_boxes.dart';
 import 'package:websocket/models/user/user_model.dart';
+import 'package:websocket/routes/app_navigator.dart';
+import 'package:websocket/screens/auth/regiser_screen.dart';
+import 'package:websocket/screens/chat/chat_screen.dart';
+import 'package:websocket/widgets/widgets.dart';
 
 import '../../blocs/users/users_bloc.dart';
 
@@ -30,7 +35,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: const Text('Home'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              AppDialog(context).showSimpleDialog(
+                title: 'Logout',
+                contentText: 'Are you really want to exit',
+                onYesPressed: ()async {
+                  HiveBoxes.prefBox.clear();
+                  AppNavigator.pushNamedAndRemoveUntil(RegisterScreen.route);
+                },
+              );
+            },
+            icon: const Icon(Icons.logout_outlined),
+          )
+        ],
+      ),
       body: BlocProvider(
         create: (context) => UsersBloc()..add(GetUsersEvent()),
         child: BlocBuilder<UsersBloc, UsersState>(
@@ -52,6 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListTile(
                     title: Text(user.username ?? ''),
                     subtitle: Text(user.email ?? ''),
+                    onTap: () {
+                      AppNavigator.push(ChatScreen(user: user));
+                    },
                   );
                 },
               );
