@@ -68,4 +68,8 @@ class HttpResult {
     required this.response,
     required this.statusCode,
   });
+
+  dynamic getData() {
+    return jsonDecode(response.toString());
+  }
 }
